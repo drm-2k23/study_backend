@@ -34,6 +34,7 @@ schema_view = get_schema_view(
       description="Backend for study app",
       contact=openapi.Contact(email="contact@snippets.local"),
       license=openapi.License(name="BSD License"),
+      url="http://localhost:1337/api"
    ),
    public=True,
    permission_classes=[permissions.AllowAny],

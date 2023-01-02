@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./
+    command: gunicorn study_back.wsgi:application --bind 0.0.0.0:8000 --reload
+    volumes:
+      - static_volume:/usr/src/study_back/static
+      - media_volume:/usr/src/study_back/media
+    expose:
+      - 8000
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=all_user
+      - POSTGRES_PASSWORD=cyBer@123
+      - POSTGRES_DB=study_back
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/usr/src/study_back/static
+      - media_volume:/usr/src/study_back/media
+    ports:
+    - 1337:80
+    depends_on:
+    - web
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+    
