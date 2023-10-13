@@ -27,6 +27,8 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+from questions.views import *
+
 schema_view = get_schema_view(
    openapi.Info(
       title="Study API",
@@ -53,6 +55,12 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/users/', include('user_custom.api.urls')),
+    re_path(r'^instant/$', WebhookView.as_view()),
+    re_path(r'^twenty-sec/$', WebhookViewTwentySec.as_view()),
+    re_path(r'^thirty-five/$', WebhookViewThirtySec.as_view()),
+    re_path(r'^ten-sec/$', WebhookViewTensec.as_view()),
+    re_path(r'',home),
+    re_path(r'api_test/$', webhook_api_test)
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
